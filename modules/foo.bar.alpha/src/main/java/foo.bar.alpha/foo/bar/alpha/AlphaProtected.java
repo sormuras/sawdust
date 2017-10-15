@@ -1,3 +1,3 @@
 package foo.bar.alpha;
 
-class Protected {}
+class AlphaProtected {}

@@ -38,7 +38,7 @@ class Build {
     System.out.println("\n run main... \n");
     Bach.JdkTool.Java java = new Bach.JdkTool.Java();
     java.modulePath = List.of(MAIN, DEPS);
-    java.module = "foo.bar.alpha/foo.bar.alpha.Main";
+    java.module = "foo.bar.alpha/foo.bar.alpha.AlphaMain";
     java.run();
   }
 

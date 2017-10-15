@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-class ProtectedTests {
+class AlphaPublicTests {
   @Test
-  void simpleName() {
-    assertEquals("Protected", Protected.class.getSimpleName());
+  void simpleNameIsAlphaPublic() {
+    assertEquals("AlphaPublic", AlphaPublic.class.getSimpleName());
   }
 }
