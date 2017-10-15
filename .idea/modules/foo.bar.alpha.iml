@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../modules/foo.bar.alpha">
+      <sourceFolder url="file://$MODULE_DIR$/../../modules/foo.bar.alpha/src/main/java/foo.bar.alpha" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../modules/foo.bar.alpha/src/test/java/foo.bar.alpha" isTestSource="true" />
+      <excludePattern pattern="src/test/java/foo.bar.alpha/module-info.java" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="TEST" name="junit-5" level="project" />
+    <orderEntry type="library" name="slf4j-1.8.0" level="project" />
+  </component>
+</module>
