@@ -3,5 +3,8 @@ sudo: false
 language: java
 jdk: oraclejdk9
 
+install:
+- java --version
+
 script:
 - ./build.jsh
