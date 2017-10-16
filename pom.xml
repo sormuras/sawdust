@@ -18,11 +18,42 @@
         <module>modules/sawdust.alpha</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.8.0-alpha2</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>org.apiguardian</groupId>
+            <artifactId>apiguardian-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>com.github.junit-team.junit5</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>jigsaw-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>com.github.junit-team.junit5</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>jigsaw-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>com.github.junit-team.junit5</groupId>
+            <artifactId>junit-platform-console</artifactId>
+            <version>jigsaw-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
