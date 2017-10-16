@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/foo.bar.alpha.iml" filepath="$PROJECT_DIR$/.idea/modules/foo.bar.alpha.iml" />
       <module fileurl="file://$PROJECT_DIR$/sawdust.iml" filepath="$PROJECT_DIR$/sawdust.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test.user.view.iml" filepath="$PROJECT_DIR$/.idea/modules/test.user.view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sawdust.alpha.iml" filepath="$PROJECT_DIR$/.idea/modules/sawdust.alpha.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user.view.iml" filepath="$PROJECT_DIR$/.idea/modules/user.view.iml" />
     </modules>
   </component>
 </project>

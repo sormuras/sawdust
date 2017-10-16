@@ -5,7 +5,7 @@ import java.util.List;
 class Build {
 
   public static void main(String... args) throws Exception {
-    Bach.Default.VERBOSE = true;
+    Bach.Default.VERBOSE = false;
     new Build().build();
   }
 
@@ -13,11 +13,12 @@ class Build {
   Path MAIN = Paths.get("target", "bach", "main");
   Path TEST = Paths.get("target", "bach", "test");
 
-  Path moduleAlphaMain = Paths.get("modules/foo.bar.alpha/src/main/java");
-  Path moduleAlphaTest = Paths.get("modules/foo.bar.alpha/src/test/java");
-  Path moduleTestUserView = Paths.get("modules/test.user.view/src/test/java");
+  Path moduleAlphaMain = Paths.get("modules/sawdust.alpha/src/main/java");
+  Path moduleAlphaTest = Paths.get("modules/sawdust.alpha/src/test/java");
+  Path moduleUserViewTest = Paths.get("modules/user.view/src/test/java");
 
   void build() throws Exception {
+    System.out.println("\n build \n");
     Bach.Basics.treeDelete(Paths.get("target", "bach"));
     compileMain();
     run();
@@ -26,7 +27,7 @@ class Build {
   }
 
   void compileMain() {
-    System.out.println("\n compile main modules... \n");
+    System.out.println("\n compile main modules \n");
     Bach.JdkTool.Javac javac = new Bach.JdkTool.Javac();
     javac.destination = MAIN;
     javac.modulePath = List.of(DEPS);
@@ -35,27 +36,25 @@ class Build {
   }
 
   void run() {
-    System.out.println("\n run main... \n");
+    System.out.println("\n run main \n");
     Bach.JdkTool.Java java = new Bach.JdkTool.Java();
     java.modulePath = List.of(MAIN, DEPS);
-    java.module = "foo.bar.alpha/foo.bar.alpha.AlphaMain";
+    java.module = "sawdust.alpha/sawdust.alpha.AlphaMain";
     java.run();
   }
 
   void compileTest() {
-    System.out.println("\n compile test modules... \n");
-    List<Path> tests = List.of(moduleAlphaTest, moduleTestUserView);
-    List<Path> mains = List.of(moduleAlphaMain);
+    System.out.println("\n compile test modules \n");
     Bach.JdkTool.Javac javac = new Bach.JdkTool.Javac();
     javac.destination = TEST;
     javac.modulePath = List.of(DEPS);
-    javac.moduleSourcePath = tests;
-    javac.patchModule = Bach.Basics.getPatchMap(tests, mains);
+    javac.moduleSourcePath = List.of(moduleAlphaTest, moduleUserViewTest);
+    javac.patchModule = Bach.Basics.getPatchMap(javac.moduleSourcePath, List.of(moduleAlphaMain));
     javac.run();
   }
 
   void test() {
-    System.out.println("\n launch junit platform console... \n");
+    System.out.println("\n launch junit platform console \n");
     Bach.JdkTool.Java java = new Bach.JdkTool.Java();
     java.modulePath = List.of(TEST, DEPS);
     java.addModules = List.of("ALL-MODULE-PATH");
