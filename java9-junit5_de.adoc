@@ -1,0 +1,73 @@
+==== #WorksFineOnJDK9
+
+JUnit 5 unterstützt seit der Version 5.0.0 die Verwendung unter Java 9.
+Einerseits wird keine verbotene und bald unerreichbare Java API, wie `sun.misc.Unsafe` oder andere _Illegal Reflective Access_ Hacks, verwendet.
+Andererseits enthalten alle veröffentlichten Artefakte [1][2] ein eindeutiges `Automatic-Module-Name` Attribut in ihrem JAR Manifest.
+So ist zum Beispiel in der Datei `junit-jupiter-api-5.0.0.jar` der Modulname `org.junit.jupiter.api` festgehalten.
+Unter diesem "reverse DNS" Namen kann man unter Java 9 das Jupiter API Modul eindeutig referenzieren.
+
+```java
+open module com.foo.bar {
+  requires org.junit.jupiter.api;
+}
+```
+
+Zur Zeit sind die JUnit 5 Artefakte nur als "automatische Module" verwendbar.
+Das heißt, sie enthalten keine konkrete Modulbeschreibungsklasse namens `module-info.class`.
+Damit sind automatisch alle Pakete eines Artefakts les- und verwendbar, auch die, die wir nicht öffentlich verfügbar machen wollen.
+Das wird sich in einer zukünftigen JUnit 5 Version ändern.
+Deshalb bitte keine mit `@API(Status.INTERNAL)` annotierte Klasse verwenden.
+
+==== Tests in Modulen organisieren
+
+Im Umfeld eines Modulsystems mit strikten Modulgrenzen gibt es zunächst zwei Arten von Test:
+solche Tests, die sich an die Grenzen halten und solche, die die Grenzen absichtlich misachten um interne Typen zu testen.
+
+Schaubild? Tabelle?
+
+* Echte Tests: nur Zugriff auf die exportierten Typen, die strikten Modulgrenzen werden respektiert
+* Modul-interne Tests: genau früher auf dem `class-path`, mit Zugriff auf `package private` und `protected` deklarierte Typen.
+
+Alle Tests, die im Modul `com.foo.bar` enthalten sind, ausführen:
+
+```java
+java --module-path mods/test:mods/main:mods/deps
+     --add-modules com.foo.bar
+     --module org.junit.platform.console
+     --select-module com.foo.bar
+```
+
+Alle Tests aus allen Modulen ausführen:
+
+```java
+java --module-path mods/test:mods/main:mods/deps
+     --add-modules ALL-MODULE-PATH
+     --module org.junit.platform.console
+     --scan-module-path
+```
+
+Modul-interne Tests können mittels `--patch-module module=file(;file)*` ausgeführt werden:
+
+```java
+java --module-path mods/test:mods/deps
+     --patch-module mods/test=mods/main (TODO!)
+     --add-modules ALL-MODULE-PATH
+     --module org.junit.platform.console
+     --scan-module-path
+```
+
+// Ideen aus `junit5-java9-modulepath` holen bzw. beschreiben
+
+https://github.com/junit-team/junit5-samples/pull/46/files
+
+==== Die Eismaschine
+
+Oder wie implementiert und registriert man eine eigene `TestEngine` mit Java 9?
+
+// Text aus `junit5-java9-engine` übersetzen
+
+https://github.com/junit-team/junit5-samples/blob/master/junit5-java9-engine/README.md
+
+==== Links
+- [1]: http://junit.org/junit5/docs/current/user-guide/#dependency-metadata
+- [2]: https://github.com/junit-team/junit5#dependency-metadata
