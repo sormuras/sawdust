@@ -7,7 +7,7 @@ So ist zum Beispiel in der Datei `junit-jupiter-api-5.0.0.jar` der Modulname `or
 Unter diesem "reverse DNS" Namen kann man unter Java 9 das Jupiter API Modul eindeutig referenzieren.
 
 ```java
-open module com.foo.bar {
+module com.foo.bar {
   requires org.junit.jupiter.api;
 }
 ```
@@ -20,13 +20,40 @@ Deshalb bitte keine mit `@API(Status.INTERNAL)` annotierte Klasse verwenden.
 
 ==== Tests in Modulen organisieren
 
-Im Umfeld eines Modulsystems mit strikten Modulgrenzen gibt es zunächst zwei Arten von Test:
-solche Tests, die sich an die Grenzen halten und solche, die die Grenzen absichtlich misachten um interne Typen zu testen.
+Im Umfeld des Java-Modulsystems gibt es zunächst zwei Arten von Typen.
+Zum Einen gibt es Modul-interne Typen, die sich untereinander mit den bekannten Regeln referenzieren können.
+`public`, `protected`, `private` und _package private_ sind hier die Schlagworte.
+Zum Anderen gibt es nun die Teilmenge der `public`-annotierten Typen, die sich in veröffentlichten Paketen befinden:
 
-Schaubild? Tabelle?
+```java
+module alpha {
+  exports alpha.api;
+}
+```
 
-* Echte Tests: nur Zugriff auf die exportierten Typen, die strikten Modulgrenzen werden respektiert
-* Modul-interne Tests: genau früher auf dem `class-path`, mit Zugriff auf `package private` und `protected` deklarierte Typen.
+Damit sind alle Typen aus dem Paket `alpha.api` für andere Module lesbar.
+Alle Typen aus anderen Paketen, wie zum Beispiel `package alpha.api.internal`, können von anderen Modulen nicht gelesen werden.
+
+Diese Zweiteilung spiegelt sich beim Testen wider.
+Es gibt solche Tests, die sich an die strikten Grenzen halten und solche, die die Grenzen absichtlich missachten um interne Typen zu testen.
+
+===== Echte Tests
+
+_nur Zugriff auf die exportierten Typen, die strikten Modulgrenzen werden respektiert_
+
+Dafür erweitern wir das erste Beispiel um zwei Elemente.
+Zunächst öffnen wir das Modul `com.foo.bar` mittels `open module`.
+Damit ermöglichen wir den generellen, reflektiven Zugriff auf alle im Module enthaltene Pakete.
+
+Als Zweites fügen wir `requires alpha;` der Modulbeschreibung hinzu.
+Diese sieht nun so aus:
+
+```java
+open module com.foo.bar {
+  requires alpha;
+  requires org.junit.jupiter.api;
+}
+```
 
 Alle Tests, die im Modul `com.foo.bar` enthalten sind, ausführen:
 
@@ -37,7 +64,7 @@ java --module-path mods/test:mods/main:mods/deps
      --select-module com.foo.bar
 ```
 
-Alle Tests aus allen Modulen ausführen:
+Alle Tests aus allen Modulen, die im `module-path` aufgeführt sind, ausführen:
 
 ```java
 java --module-path mods/test:mods/main:mods/deps
@@ -45,6 +72,9 @@ java --module-path mods/test:mods/main:mods/deps
      --module org.junit.platform.console
      --scan-module-path
 ```
+===== Modul-interne Tests
+
+_genau wie früher auf dem `class-path`, mit Zugriff auf `package private` und `protected` deklarierte Typen_
 
 Modul-interne Tests können mittels `--patch-module module=file(;file)*` ausgeführt werden:
 
