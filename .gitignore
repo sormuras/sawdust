@@ -1,7 +1,3 @@
-!.idea/
-.idea/workspace.xml
+.bach/workspace/
 
-build/Bach.java
-build/Bach.jsh
-
-target/
+*.jar
