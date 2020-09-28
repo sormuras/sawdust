@@ -1,0 +1,10 @@
+jdk: openjdk11
+
+before_install:
+  - java --version
+  - jshell --version
+
+install:
+  - version=$([[ $(git describe --tags --exact-match 2>/dev/null) = ${VERSION} ]] && echo "${VERSION}" || echo "1-ea+$(git rev-parse --short HEAD)")
+  - jshell -R-Dbach.project.name="sawdust" -R-Dbach.project.version="${version}" -R-Dbach.javac.release="9" -R-Dbach.generate-maven-pom-files=true https://sormuras.de/bach/build
+  - for files in .bach/workspace/deploy/maven/*.files ; do mvn --batch-mode --no-transfer-progress install:install-file $(cat ${files}) ; done
