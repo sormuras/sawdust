@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.iml" filepath="$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.api.iml" filepath="$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.core.iml" filepath="$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/sawdust.iml" filepath="$PROJECT_DIR$/.idea/sawdust.iml" />
     </modules>
   </component>
