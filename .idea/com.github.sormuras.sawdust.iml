@@ -6,8 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/com.github.sormuras.sawdust" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="com.github.sormuras.sawdust.api" />
-    <orderEntry type="module" module-name="com.github.sormuras.sawdust.core" />
+    <orderEntry type="module" module-name="com.github.sormuras.sawdust.api" exported="" />
+    <orderEntry type="module" module-name="com.github.sormuras.sawdust.core" exported="" />
     <orderEntry type="inheritedJdk" />
   </component>
 </module>
