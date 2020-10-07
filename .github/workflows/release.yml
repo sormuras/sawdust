@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
@@ -20,33 +20,32 @@ jobs:
         with:
           java-version: 15
 
-      - name: 'Get release information'
-        id: get_release
-        uses: bruceadams/get-release@v1.2.1
-
       - name: 'Build with Bach'
-        run: jshell -R-Dbach.project.name='sawdust' -R-Dbach.project.version="${{ steps.get_release.outputs.tag_name }}" -R-Dbach.javac.release='9' https://sormuras.de/bach/build
+        uses: sormuras/bach-build@v1
+        with:
+          project-version: ${{ github.event.release.tag_name }}
+          project-java-release: 9
 
       - name: 'Upload module com.github.sormuras.sawdust'
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust@${{ steps.get_release.outputs.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust@${{ steps.get_release.outputs.tag_name }}.jar
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust@${{ github.event.release.tag_name }}.jar
+          asset_name: com.github.sormuras.sawdust@${{ github.event.release.tag_name }}.jar
           asset_content_type: application/java-archive
 
       - name: 'Upload module com.github.sormuras.sawdust.api'
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.api@${{ steps.get_release.outputs.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust.api@${{ steps.get_release.outputs.tag_name }}.jar
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.api@${{ github.event.release.tag_name }}.jar
+          asset_name: com.github.sormuras.sawdust.api@${{ github.event.release.tag_name }}.jar
           asset_content_type: application/java-archive
 
       - name: 'Upload module com.github.sormuras.sawdust.core'
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.core@${{ steps.get_release.outputs.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust.core@${{ steps.get_release.outputs.tag_name }}.jar
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.core@${{ github.event.release.tag_name }}.jar
+          asset_name: com.github.sormuras.sawdust.core@${{ github.event.release.tag_name }}.jar
           asset_content_type: application/java-archive

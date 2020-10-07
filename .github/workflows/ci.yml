@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build:
@@ -18,9 +18,8 @@ jobs:
         with:
           java-version: 15
 
-      - name: 'Build with Bach.java'
-        run: |
-          jshell -R-Debug https://sormuras.de/bach/build
+      - name: 'Build with Bach'
+        uses: sormuras/bach-build@v1
 
       - name: 'Upload build artifacts'
         uses: actions/upload-artifact@v2
