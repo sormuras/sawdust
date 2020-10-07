@@ -21,10 +21,10 @@ jobs:
       - name: 'Build with Bach'
         uses: sormuras/bach-build@v1
 
-      - name: 'Upload build artifacts'
+      - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: ${{ github.event.repository.name }}-build-${{ github.sha }}
           path: |
             .bach/workspace/logbook.md
             .bach/workspace/modules
