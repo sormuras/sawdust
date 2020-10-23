@@ -18,13 +18,41 @@ jobs:
         with:
           java-version: 15
 
+      - name: 'Set up version string'
+        run: |
+          SHA7=$(echo "${{ github.sha }}" | cut -c1-7)
+          VERSION="1-ea+${SHA7}"
+          echo "VERSION=${VERSION}"
+          echo "VERSION=${VERSION}" >> ${GITHUB_ENV}
+
       - name: 'Build with Bach'
         uses: sormuras/bach-build@v1
+        with:
+          bach-version: 11.9
+          project-version: ${{ env.VERSION }}
+          project-java-release: 9
 
-      - name: 'Upload build artifact'
+      - name: 'Upload build artifacts'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-build-${{ github.sha }}
+          name: ${{ github.event.repository.name }}-build-${{ env.VERSION }}
           path: |
             .bach/workspace/logbook.md
             .bach/workspace/modules
+
+      - name: 'Rename modular JAR files to match early-access tag'
+        run: |
+          ls .bach/workspace/modules
+          for i in .bach/workspace/modules/*.jar; do mv "$i" "${i/${{ env.VERSION }}/early-access}"; done
+          ls .bach/workspace/modules
+
+      - name: 'Release early-access build'
+        if: github.ref == 'refs/heads/main'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          automatic_release_tag: 'early-access'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: true
+          title: "Sawdust ${{ env.VERSION }}"
+          files: |
+            .bach/workspace/modules/*.jar
