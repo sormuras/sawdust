@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.api.iml" filepath="$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.api.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.core.iml" filepath="$PROJECT_DIR$/.idea/com.github.sormuras.sawdust.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/sawdust.iml" filepath="$PROJECT_DIR$/.idea/sawdust.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/test.iml" filepath="$PROJECT_DIR$/.idea/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/test.integration.iml" filepath="$PROJECT_DIR$/.idea/test.integration.iml" />
     </modules>
   </component>
 </project>
