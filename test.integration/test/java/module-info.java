@@ -1,4 +1,4 @@
-open /*test*/ module test {
+open /*test*/ module test.integration {
   requires com.github.sormuras.sawdust;
 
   requires org.junit.jupiter;

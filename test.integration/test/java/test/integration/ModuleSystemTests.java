@@ -1,4 +1,4 @@
-package test;
+package test.integration;
 
 import org.junitpioneer.jupiter.RetryingTest;
 
