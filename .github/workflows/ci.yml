@@ -13,10 +13,10 @@ jobs:
       - name: 'Check out sources'
         uses: actions/checkout@v2
 
-      - name: 'Set up JDK 15'
+      - name: 'Set up JDK'
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 16-ea
 
       - name: 'Set up version string'
         run: |
@@ -26,9 +26,9 @@ jobs:
           echo "VERSION=${VERSION}" >> ${GITHUB_ENV}
 
       - name: 'Build with Bach'
-        uses: sormuras/bach-build@v1
+        uses: sormuras/bach-build@main
         with:
-          bach-version: 11.9
+          bach-version: ea
           project-version: ${{ env.VERSION }}
           project-java-release: 9
 
@@ -37,7 +37,6 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}-build-${{ env.VERSION }}
           path: |
-            .bach/workspace/logbook.md
             .bach/workspace/modules
 
       - name: 'Rename modular JAR files to match early-access tag'
