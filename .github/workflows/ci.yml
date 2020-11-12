@@ -34,9 +34,9 @@ jobs:
       - name: 'Build with Bach'
         uses: sormuras/bach-build@main
         with:
-          bach-version: ea
           project-version: ${{ env.VERSION }}
-          project-java-release: 9
+          project-main-release: 9
+          project-main-jarslug: 'early-access'
 
       - name: 'Upload build artifacts'
         uses: actions/upload-artifact@v2
@@ -44,12 +44,6 @@ jobs:
           name: ${{ github.event.repository.name }}-build-${{ env.VERSION }}
           path: |
             .bach/workspace/modules
-
-      - name: 'Rename modular JAR files to match early-access tag'
-        run: |
-          ls .bach/workspace/modules
-          for i in .bach/workspace/modules/*.jar; do mv "$i" "${i/${{ env.VERSION }}/early-access}"; done
-          ls .bach/workspace/modules
 
       - name: 'Release early-access build'
         if: github.ref == 'refs/heads/main'
