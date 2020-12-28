@@ -32,8 +32,9 @@ jobs:
           echo "VERSION=${VERSION}" >> ${GITHUB_ENV}
 
       - name: 'Build with Bach'
-        uses: sormuras/bach-build@main
+        uses: sormuras/bach-build@v1
         with:
+          bach-version: 16
           project-version: ${{ env.VERSION }}
           project-main-release: 9
           project-main-jarslug: 'early-access'
