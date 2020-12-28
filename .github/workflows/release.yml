@@ -21,8 +21,9 @@ jobs:
           java-version: 16-ea
 
       - name: 'Build with Bach'
-        uses: sormuras/bach-build@main
+        uses: sormuras/bach-build@v1
         with:
+          bach-version: 16
           project-version: ${{ github.event.release.tag_name }}
           project-main-release: 9
 
