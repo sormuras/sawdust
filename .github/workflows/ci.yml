@@ -32,12 +32,12 @@ jobs:
           echo "VERSION=${VERSION}" >> ${GITHUB_ENV}
 
       - name: 'Build with Bach'
-        uses: sormuras/bach-build@v1
-        with:
-          bach-version: 16
-          project-version: ${{ env.VERSION }}
-          project-main-release: 9
-          project-main-jarslug: 'early-access'
+        run: |
+          jshell \
+          -R-Dbach.project.version=${{ env.VERSION }} \
+          -R-Dbach.project.main.release=9 \
+          -R-Dbach.project.main.jarslug=early-access \
+          https://github.com/sormuras/bach/releases/download/16.0.2/build.jsh
 
       - name: 'Upload build artifacts'
         uses: actions/upload-artifact@v2

@@ -3,6 +3,6 @@ open /*test*/ module test.integration {
   requires com.github.sormuras.simplicissimus;
 
   requires org.junit.jupiter;
-  requires org.junit.platform.console;
+  requires static org.junit.platform.console;
   requires org.junitpioneer;
 }

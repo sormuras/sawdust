@@ -21,11 +21,11 @@ jobs:
           java-version: 16-ea
 
       - name: 'Build with Bach'
-        uses: sormuras/bach-build@v1
-        with:
-          bach-version: 16
-          project-version: ${{ github.event.release.tag_name }}
-          project-main-release: 9
+        run: |
+          jshell \
+          -R-Dbach.project.version=${{ github.event.release.tag_name }} \
+          -R-Dbach.project.main.release=9 \
+          https://github.com/sormuras/bach/releases/download/16.0.2/build.jsh
 
       - name: 'Upload module com.github.sormuras.sawdust'
         uses: actions/upload-release-asset@v1
