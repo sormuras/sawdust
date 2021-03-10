@@ -49,11 +49,11 @@ jobs:
 
       - name: 'Release early-access build'
         if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          tag_name: 'early-access'
+          automatic_release_tag: 'early-access'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
-          name: "Sawdust ${{ env.VERSION }}"
-          body: "Release of Sawdust ${{ env.VERSION }}"
+          title: "Sawdust ${{ env.VERSION }}"
           files: |
             .bach/workspace/modules/*.jar

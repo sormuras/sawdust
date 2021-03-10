@@ -6,6 +6,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
+  VERSION: ${{ github.event.release.tag_name }}
 
 jobs:
   release:
@@ -24,10 +25,13 @@ jobs:
         run: jshell https://bit.ly/bach-init
 
       - name: 'Build with Bach'
-        run: .bach/bin/bach --project-version ${{ github.event.release.tag_name }} --project-targets-java 9 build
+        run: .bach/bin/bach --guess --project-version $VERSION --project-targets-java 9 build
 
       - name: 'Upload modules'
-        uses: softprops/action-gh-release@v1
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          tag_name: ${{ github.event.release.tag_name }}
+          automatic_release_tag: ${{ env.VERSION }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          title: "Sawdust ${{ env.VERSION }}"
           files: .bach/workspace/modules/*.jar
