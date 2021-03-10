@@ -1,11 +1,16 @@
 # sawdust
 
-Sawdust provides several Java modules.
+Project sawdust consists of several Java modules.
+
+Three main modules meant to be reused.
+One test module that checks the modular API of the former three.
 
 ## build
 
 - Install [JDK](https://jdk.java.net) 16 or later
-- Invoke `jshell https://github.com/sormuras/bach/releases/download/16.0.2/build.jsh`
+- Clone this repository
+- Invoke `jshell https://bit.ly/bach-init`
+- On Windows call `.bach\bin\bach build`, on Linux `.bach/bin/bach build`
 
 ## use
 
