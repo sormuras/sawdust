@@ -26,26 +26,8 @@ jobs:
       - name: 'Build with Bach'
         run: .bach/bin/bach --project-version ${{ github.event.release.tag_name }} --project-targets-java 9 build
 
-      - name: 'Upload module com.github.sormuras.sawdust'
-        uses: actions/upload-release-asset@v1
+      - name: 'Upload modules'
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust@${{ github.event.release.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust@${{ github.event.release.tag_name }}.jar
-          asset_content_type: application/java-archive
-
-      - name: 'Upload module com.github.sormuras.sawdust.api'
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.api@${{ github.event.release.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust.api@${{ github.event.release.tag_name }}.jar
-          asset_content_type: application/java-archive
-
-      - name: 'Upload module com.github.sormuras.sawdust.core'
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: .bach/workspace/modules/com.github.sormuras.sawdust.core@${{ github.event.release.tag_name }}.jar
-          asset_name: com.github.sormuras.sawdust.core@${{ github.event.release.tag_name }}.jar
-          asset_content_type: application/java-archive
+          tag_name: ${{ github.event.release.tag_name }}
+          files: .bach/workspace/modules/*.jar
