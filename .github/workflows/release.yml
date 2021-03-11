@@ -2,10 +2,9 @@ name: Release
 
 on:
   release:
-    types: [ published ]
+    types: [ released ]
 
 env:
-  GITHUB_TOKEN: ${{ github.token }}
   VERSION: ${{ github.event.release.tag_name }}
 
 jobs:
@@ -25,9 +24,9 @@ jobs:
         run: jshell https://bit.ly/bach-init
 
       - name: 'Build with Bach'
-        run: .bach/bin/bach --guess --project-version $VERSION --project-targets-java 9 build
+        run: .bach/bin/bach --guess --project-version ${{ env.VERSION }} --project-targets-java 9 build
 
-      - name: 'Upload modules'
+      - name: 'Release ${{ env.VERSION }}'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           automatic_release_tag: ${{ env.VERSION }}

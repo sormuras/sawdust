@@ -5,15 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Reason'
-        required: false
-        default: 'Because...'
 
 env:
-  GITHUB_TOKEN: ${{ github.token }}
+  VERSION: '1-ea'
+  VERSION_AND_BUILD: '1-ea+${{ github.sha }}'
 
 jobs:
   build:
@@ -27,33 +22,34 @@ jobs:
         with:
           java-version: 16-ea
 
-      - name: 'Set up version string'
+      - name: 'Shorten version and build variable'
         run: |
           SHA7=$(echo "${{ github.sha }}" | cut -c1-7)
-          VERSION="1-ea+${SHA7}"
-          echo "VERSION=${VERSION}"
-          echo "VERSION=${VERSION}" >> ${GITHUB_ENV}
+          VERSION_AND_BUILD=$VERSION+$SHA7
+          echo "VERSION=$VERSION"
+          echo "VERSION_AND_BUILD=$VERSION_AND_BUILD"
+          echo "VERSION_AND_BUILD=$VERSION_AND_BUILD" >> ${GITHUB_ENV}
 
       - name: 'Initialize Bach'
         run: jshell https://bit.ly/bach-init
 
       - name: 'Build with Bach'
-        run: .bach/bin/bach --guess --project-version ${{ env.VERSION }} --project-targets-java 9 build
+        run: .bach/bin/bach --guess --project-version ${{ env.VERSION_AND_BUILD }} --project-targets-java 9 build
 
       - name: 'Upload build artifacts'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.repository.name }}-build-${{ env.VERSION }}
+          name: ${{ github.event.repository.name }}-build-${{ env.VERSION_AND_BUILD }}
           path: |
+            .bach/workspace/logbook.md
             .bach/workspace/modules
 
-      - name: 'Release early-access build'
+      - name: 'Release early-access build ${{ env.VERSION_AND_BUILD }} tagged as ${{ env.VERSION }}'
         if: github.ref == 'refs/heads/main'
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          automatic_release_tag: 'early-access'
+          automatic_release_tag: ${{ env.VERSION }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
           title: "Sawdust ${{ env.VERSION }}"
-          files: |
-            .bach/workspace/modules/*.jar
+          files: .bach/workspace/modules/*.jar
