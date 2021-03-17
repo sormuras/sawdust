@@ -1,11 +1,19 @@
 name: Release
 
 on:
-  release:
-    types: [ released ]
+  workflow_dispatch:
+    inputs:
+      tag-version:
+        description: 'Tag as version'
+        required: true
+        default: '1-ea'
+      pre-release:
+        description: 'Pre-release? [true|false]'
+        required: true
+        default: 'true'
 
 env:
-  VERSION: ${{ github.event.release.tag_name }}
+  VERSION: ${{ github.event.inputs.tag-version }}
 
 jobs:
   release:
@@ -18,7 +26,7 @@ jobs:
       - name: 'Set up JDK'
         uses: actions/setup-java@v1
         with:
-          java-version: 16-ea
+          java-version: 16
 
       - name: 'Initialize Bach'
         run: jshell https://bit.ly/bach-init
@@ -31,6 +39,6 @@ jobs:
         with:
           automatic_release_tag: ${{ env.VERSION }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
+          prerelease: ${{ github.event.inputs.pre-release }}
           title: "Sawdust ${{ env.VERSION }}"
           files: .bach/workspace/modules/*.jar
